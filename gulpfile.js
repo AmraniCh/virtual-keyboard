@@ -7,7 +7,8 @@ var
     livereload = require('gulp-livereload'),
     uglify = require('gulp-uglify'),
     notify = require('gulp-notify'),
-    plumber = require('gulp-plumber');
+    plumber = require('gulp-plumber'),
+    connect = require('gulp-connect');
 
 var onError = function (err) {
     notify.onError({
@@ -25,6 +26,14 @@ gulp.task('bundle', function () {
         .pipe(rename({ suffix: '.min' }))
         .pipe(uglify())
         .pipe(gulp.dest('./dist/'))
+        .pipe(livereload())
+});
+
+gulp.task('connect', function() {
+    connect.server({
+        root: './',
+        livereload: true
+    });
 });
 
 gulp.task('styles', function () {
@@ -41,7 +50,8 @@ gulp.task('styles', function () {
         ]))
         .pipe(sourcemaps.write())
         .pipe(rename({
-            prefix: 'vitual-keybaord',
+            basename: "",
+            prefix: 'virtual-keybaord',
             suffix: '.min'
         }))
         .pipe(gulp.dest('./dist/'))
@@ -54,4 +64,4 @@ gulp.task('watch', function () {
     gulp.watch('src/scss/**/*.scss', ['styles']);
 });
 
-gulp.task('default', ['watch']);
+gulp.task('default', ['watch', 'connect']);
