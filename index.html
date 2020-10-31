@@ -8,8 +8,25 @@
     <title>Virtual keyboard demo</title>
 </head>
 <body>
-    <h1>Hello world!</h1>
-    
+
+    <div class="keyboard">
+        <div class="keyboard__keys">
+            <button type="button" class="keyboard__key">a</button>
+            <button type="button" class="keyboard__key keyboard__key--wide">
+                <i class="icon material-icons">backspace</i>
+            </button>
+            <button type="button" class="keyboard__key keyboard__key--extra-wide">
+                <i class="icon material-icons">space_bar</i>
+            </button>
+            <button type="button" class="keyboard__key keyboard__key--wide keyboard__key--activatable">
+                <i class="icon material-icons">keyboard_capslock</i>
+            </button>
+            <button type="button" class="keyboard__key keyboard__key--dark">
+                <i class="icon material-icons">check_circle</i>
+            </button>
+        </div>
+    </div>
+
     <script src="./dist/virtual-keyboard.min.js"></script>
 </body>
 </html>
