@@ -40,7 +40,10 @@ gulp.task('styles', function () {
             'ie >= 9'
         ]))
         .pipe(sourcemaps.write())
-        .pipe(rename({suffix: '.min'}))
+        .pipe(rename({
+            prefix: 'vitual-keybaord',
+            suffix: '.min'
+        }))
         .pipe(gulp.dest('./dist/'))
         .pipe(livereload())
 });
