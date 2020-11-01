@@ -8,7 +8,6 @@
     <title>Virtual keyboard demo</title>
 </head>
 <body>
-    hello
     <!--
     <div id="keyboard">
         <div class="keyboard__keys">
@@ -27,17 +26,17 @@
             </button>
         </div>
     </div>
--->
+--> 
+
+    <input type="text" placeholder="username">
 
     <script src="./src/js/virtual-keyboard.js"></script>
     <script>
-        var a = Keyboard({
+        Keyboard({
             lang: 'fr',
             charsOnly: false,
-            caps: true
-        });
-
-        console.log(a.init());
+            caps: false
+        }).init();
 
         // Validate options
         // Rendering the keyboard skeleton

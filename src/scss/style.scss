@@ -18,7 +18,7 @@ $letterColor: #FFF;
         padding: 0;
     }
 
-    button:focus {
+    button:focus, input:focus, textarea:focus {
         outline: none;
     }
 
@@ -76,6 +76,22 @@ $letterColor: #FFF;
             
             &.keyboard__key--dark {
                 background-color: rgba($color: #000000, $alpha: .2);
+            }
+        }
+
+        .keyboard__input {
+            padding: 10px;
+            background-color: rgba($color: #000000, $alpha: .2);
+            border: none;
+            color: #FFF;
+            font-size: 1.05rem;
+            margin: 15px 0;
+            border-radius: 4px;
+            width: 60%;
+            max-width: 600px;
+            letter-spacing: 2px;
+            &::placeholder {
+                color: #FFF;
             }
         }
     }
