@@ -8,8 +8,9 @@
     <title>Virtual keyboard demo</title>
 </head>
 <body>
-
-    <div class="keyboard">
+    hello
+    <!--
+    <div id="keyboard">
         <div class="keyboard__keys">
             <button type="button" class="keyboard__key">a</button>
             <button type="button" class="keyboard__key keyboard__key--wide">
@@ -26,7 +27,22 @@
             </button>
         </div>
     </div>
+-->
 
-    <script src="./dist/virtual-keyboard.min.js"></script>
+    <script src="./src/js/virtual-keyboard.js"></script>
+    <script>
+        var a = Keyboard({
+            lang: 'fr',
+            charsOnly: false,
+            caps: true
+        });
+
+        console.log(a.init());
+
+        // Validate options
+        // Rendering the keyboard skeleton
+        // => Applying options
+        // Apply events
+    </script>
 </body>
 </html>
