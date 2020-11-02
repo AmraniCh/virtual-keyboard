@@ -29,19 +29,16 @@
 --> 
 
     <input type="text" placeholder="username">
+    <input type="password" placeholder="password">
+    <textarea></textarea>
 
     <script src="./src/js/virtual-keyboard.js"></script>
     <script>
         Keyboard({
             lang: 'fr',
             charsOnly: false,
-            caps: false
+            caps: true
         }).init();
-
-        // Validate options
-        // Rendering the keyboard skeleton
-        // => Applying options
-        // Apply events
     </script>
 </body>
 </html>

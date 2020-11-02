@@ -34,7 +34,8 @@ $letterColor: #FFF;
             border-radius: 5px;
             background-color: rgba($color: #FFF, $alpha: .2);
             color: $letterColor;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
+            font-weight: bold;
             margin: 5px;
             display: inline-flex;
             align-items: center;
@@ -53,8 +54,8 @@ $letterColor: #FFF;
             }
 
             &.keyboard__key--extra-wide {
-                width: 35%;
-                max-width: 400px;
+                width: 45%;
+                max-width: 600px;
             }
 
             &.keyboard__key--activatable {
@@ -89,7 +90,7 @@ $letterColor: #FFF;
             border-radius: 4px;
             width: 60%;
             max-width: 600px;
-            letter-spacing: 2px;
+            letter-spacing: 1.5px;
             &::placeholder {
                 color: #FFF;
             }
