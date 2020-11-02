@@ -81,6 +81,10 @@ var Keyboard = function (clientOptions) {
             return this;
         };
 
+        Helper.prototype.contains = function(classes) {
+            return this[0].classList.contains(cls);
+        };
+
         Helper.prototype.appendTo = function(appendTo) {
             document.querySelector(appendTo).appendChild(this[0]);
             return this;
@@ -312,7 +316,7 @@ var Keyboard = function (clientOptions) {
 
         // Hide the keyboard when clicking out of the keyboard view
         Helper(window).on('click', function(e) {
-            if (!elements.container.classList.contains('keyboard--hidden')) { 
+            if (!Helper(elements.container).contains('keyboard--hidden')) { 
                 if (e.target !== elements.keyboardInput 
                     && ['input', 'textarea'].indexOf(e.target.tagName.toLowerCase()) === -1
                     && e.target.closest('.keyboard') !== elements.container) {
