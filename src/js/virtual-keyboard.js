@@ -9,8 +9,15 @@ var Keyboard = function (clientOptions) {
                 ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
                 [{'20': "caps"}, "a", "s", "d", "f", "g", "h", "j", "k", "l", {'13': "enter"}],
                 [{done: "done"}, "z", "x", "c", "v", "b", "n", "m", ",", ".", "?"],
-                [{'32': "space"}]
+                [{lang: "lang"}, {'32': "space"}]
             ],
+            'ar': [
+                [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, {'8': "backspace"}],
+                ["ض", "ص", "ث", "ق", "ف", "غ", "ع", "ه", "خ", "ح"],
+                [{'20': "caps"}, "ش", "س", "ي", "ب", "ل", "ا", "ت", "ن", "م", {'13': "enter"}],
+                [{done: "done"}, "ئ", "ء", "ؤ", "ر", "لا", "ى", "ة", ",", ".", "?"],
+                [{lang: "lang"}, {'32': "space"}]
+            ]
         },
         supportedLanguages = Object.keys(keys), // TODO Object.keys es5
         options = {
@@ -81,7 +88,11 @@ var Keyboard = function (clientOptions) {
             return this;
         };
 
-        Helper.prototype.contains = function(classes) {
+        Helper.prototype.toggle = function(cls) {
+            return this[0].classList.toggle(cls);
+        };
+
+        Helper.prototype.contains = function(cls) {
             return this[0].classList.contains(cls);
         };
 
@@ -143,7 +154,7 @@ var Keyboard = function (clientOptions) {
         keysContainer.insertBefore(input, keysContainer.firstElementChild);
         Helper.create('br').appendTo('.keyboard__keys');
 
-        operateOnKeys(function (key) {
+        operateOnKeys(options.lang, function (key) {
             var isSpecialKey = typeof key === 'object',
                 isBreakLine = arguments[arguments.length - 1];
 
@@ -222,6 +233,54 @@ var Keyboard = function (clientOptions) {
 
                             Helper(btn).on('click', done);
                             break;
+                        case 'lang':
+                            var btn = Helper.create('button')
+                                .addClass('keyboard__key keyboard__key--wide keyboard__key--dark keyboard__langauge__dropdown')
+                                .setAttribute('type', 'button')
+                                .get(0),
+                                icon = Helper.create('i')
+                                .addClass('icon material-icons')
+                                .text('language')
+                                .get(0);
+
+                            btn.appendChild(icon);
+                            keysContainer.appendChild(btn);
+
+                            var list = Helper.create('ul')
+                                .addClass('languages__list')
+                                .get(0);
+
+                                Helper(list).on('click', function(e) {
+                                    e.stopPropagation();
+                                    e.preventDefault();
+                                });
+                            
+                            var items = [];
+                            for (var i = 0; i < supportedLanguages.length; i++) {
+                                var lang =supportedLanguages[i];
+                                var li = Helper.create('li')
+                                    .addClass('language__item')
+                                    .setAttribute('data-lang', lang)
+                                    .text(lang)
+                                    .get(0);
+                                list.appendChild(li);
+                                items.push(li);
+                            }
+
+                            btn.appendChild(list);
+
+                            Helper(btn).on('click', function() {
+                                Helper(list).toggle('show');
+                            });
+
+                            Helper(items).each(function(item) {
+                                Helper(item).on('click', function() {
+                                    Helper(list).removeClass('show'); 
+                                    changeLangauge(this.dataset.lang);
+                                });
+                            });
+
+                            break;
                         case SPACE:
                             var btn = Helper.create('button')
                                 .addClass('keyboard__key keyboard__key--extra-wide')
@@ -273,8 +332,8 @@ var Keyboard = function (clientOptions) {
         elements.keyboardInput.value = properties.value;
     }
 
-    function operateOnKeys(clb) {
-        Helper(keys[options.lang]).each(function (rowKeys, rowIndex) {
+    function operateOnKeys(lang, clb) {
+        Helper(keys[lang]).each(function (rowKeys, rowIndex) {
             Helper(rowKeys).each(function (key, keyIndex) {
                 var isBreakLine = keyIndex === rowKeys.length - 1;
                 clb.apply(this, [key, rowIndex, keyIndex, isBreakLine]);
@@ -299,6 +358,21 @@ var Keyboard = function (clientOptions) {
         Helper(elements.container).addClass('keyboard--hidden');
     }
 
+    function changeLangauge(lang) 
+    {
+        if (supportedLanguages.indexOf(lang) === -1) return;
+
+        var k = Helper('.keyboard__key:not(.keyboard__key--wide):not(.keyboard__key--extra-wide)');
+
+        var i = 0;
+        operateOnKeys(lang, function(key, rowIndex, keyIndex, isBreakLine) {
+            if (typeof key !== 'object') {
+                Helper(k[i]).text(key+"");
+                i++;
+            }
+        });
+    }
+
     function initEvents() {
         // Binding focus event on inputs, textareas
         Helper('input:not(.keyboard__input), textarea').each(function(input) {
@@ -321,6 +395,7 @@ var Keyboard = function (clientOptions) {
                     && ['input', 'textarea'].indexOf(e.target.tagName.toLowerCase()) === -1
                     && e.target.closest('.keyboard') !== elements.container) {
                         Helper(elements.container).addClass('keyboard--hidden');
+                        Helper('.languages__list').removeClass('show'); 
                         done();
                 }
             }

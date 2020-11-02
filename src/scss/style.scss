@@ -1,4 +1,4 @@
-$backgroundColor: #ff5252;
+$backgroundColor: #6b6dff;
 $letterColor: #FFF;
 
 .keyboard {
@@ -99,5 +99,33 @@ $letterColor: #FFF;
 
     &--hidden {
         bottom: -100%;
+    }
+
+    .languages__list {
+        position: absolute;
+        list-style: none;
+        right: 115%;
+        display: none;
+
+        .language__item {
+            background-color: #FFF;
+            border-radius: 5px;
+            margin-bottom: 4px;
+            padding: 2px;
+            width: 40px;
+            font-weight: 400;
+            letter-spacing: 1px;
+            color: #555;
+            transition: transform .2s;
+
+            &:hover {
+                opacity: .8;
+                transform: scale(1.2);
+            }
+        }
+
+        &.show {
+            display: block;
+        }
     }
 }
