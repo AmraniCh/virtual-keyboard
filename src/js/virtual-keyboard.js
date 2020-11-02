@@ -20,6 +20,7 @@ var Keyboard = function (clientOptions) {
             ]
         },
         supportedLanguages = Object.keys(keys), // TODO Object.keys es5
+        rtlLanguages = ['ar'],
         options = {
             lang: 'fr',
             charsOnly: false,
@@ -315,6 +316,8 @@ var Keyboard = function (clientOptions) {
                 keysContainer.appendChild(btn);
 
                 Helper(btn).on('click', function() {
+                    Helper(elements.keyboardInput)
+                        .setAttribute('dir', rtlLanguages.indexOf(options.lang) !== -1 ? 'rtl' : 'ltr');
                     elements.keyboardInput.value += btn.textContent;
                     elements.clientInput.value += btn.textContent;
                 });
@@ -371,6 +374,8 @@ var Keyboard = function (clientOptions) {
                 i++;
             }
         });
+
+        options.lang = lang;
     }
 
     function initEvents() {
