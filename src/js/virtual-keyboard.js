@@ -158,10 +158,8 @@ var Keyboard = function (clientOptions) {
         Helper.create('br').appendTo('.keyboard__keys');
 
         operateOnKeys(options.lang, function (key) {
-            var isSpecialKey = typeof key !== 'number' && key.match(/x\w+/) !== null,
-                isBreakLine = arguments[arguments.length - 1];
 
-            if (isSpecialKey) { // Handle special keys
+            if (isSpecialKey(key)) { // Handle special keys
                 switch (key) {
                     case BACKSPACE:
                         var btn = Helper.create('button')
@@ -322,6 +320,7 @@ var Keyboard = function (clientOptions) {
             }
 
             // Add new row of keys
+            var isBreakLine = arguments[arguments.length - 1];
             if (isBreakLine) {
                 keysContainer.appendChild(document.createElement('br'));
             }
@@ -366,14 +365,17 @@ var Keyboard = function (clientOptions) {
 
         var i = 0;
         operateOnKeys(lang, function (key) {
-            var isS = typeof key !== 'number' && key.match(/x\w+/) !== null;
-            if (!isS && k[i]) {
+            if (!isSpecialKey(key) && k[i]) {
                 Helper(k[i]).text(key + "");
                 i++;
             }
         });
 
         options.lang = lang;
+    }
+
+    function isSpecialKey(key) {
+        return typeof key !== 'number' && key.match(/x\w+/) !== null;
     }
 
     function initEvents() {
@@ -387,6 +389,9 @@ var Keyboard = function (clientOptions) {
                 updateKeyboardLiveInput({
                     placeholder: input.placeholder,
                     value: input.value
+                });
+                Helper(input).on('input', function () {
+                    elements.keyboardInput.value = this.value;
                 });
             });
         });
@@ -404,7 +409,7 @@ var Keyboard = function (clientOptions) {
             }
         });
 
-        Helper('.keyboard__input').on('input', function () {
+        Helper(elements.keyboardInput).on('input', function () {
             elements.clientInput.value = this.value;
         });
     }
