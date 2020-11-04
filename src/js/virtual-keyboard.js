@@ -4,10 +4,17 @@ var Keyboard = function (clientOptions) {
     }
 
     var keys = {
+            'en': [
+                [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, "x8"],
+                ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "[", "]", "\\"],
+                ["x20", "a", "s", "d", "f", "g", "h", "j", "k", "l", ";", "'", "x13"],
+                ["xdone", "z", "x", "c", "v", "b", "n", "m", ",", ".", "/"],
+                ["xlang", "x32"]
+            ],
             'fr': [
                 [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, "x8"],
-                ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "^", "$", "*"],
-                ["x20", "a", "s", "d", "f", "g", "h", "j", "k", "l", "m", "x13"],
+                ["a", "w", "e", "r", "t", "y", "u", "i", "o", "p", "^", "$", "*"],
+                ["x20", "q", "s", "d", "f", "g", "h", "j", "k", "l", "m", "x13"],
                 ["xdone", "z", "x", "c", "v", "b", "n", ",", ";", ":", "!"],
                 ["xlang", "x32"]
             ],
@@ -46,6 +53,7 @@ var Keyboard = function (clientOptions) {
     // TODO assign es5
     Object.assign(options, clientOptions);
 
+    // Simple helper for DOM manipulation
     var Helper = (function (selector) {
 
         if (!(this instanceof Helper)) {
@@ -354,7 +362,6 @@ var Keyboard = function (clientOptions) {
     };
 
     function done() {
-        console.log(elements.keyboardInput.value);
         elements.clientInput.value = elements.keyboardInput.value;
         Helper(elements.container).addClass('keyboard--hidden');
     }
