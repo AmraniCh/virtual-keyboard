@@ -293,10 +293,10 @@ var Keyboard = function (clientOptions) {
 
                         Helper(btn).on('click', function () {
                             elements.keyboardInput.value += ' ';
+                            elements.clientInput.value += ' ';
                         });
                         break;
                 }
-
             } else { // Regular keys
                 // Handle charsOnly option
                 if (charsOnly === true && typeof key === 'number') {
@@ -327,7 +327,7 @@ var Keyboard = function (clientOptions) {
         });
     };
 
-    function updateKeyboardLiveInput(properties) {
+    function initKeyboardInput(properties) {
         elements.keyboardInput.placeholder = properties.placeholder;
         elements.keyboardInput.value = properties.value;
     }
@@ -354,6 +354,7 @@ var Keyboard = function (clientOptions) {
     };
 
     function done() {
+        console.log(elements.keyboardInput.value);
         elements.clientInput.value = elements.keyboardInput.value;
         Helper(elements.container).addClass('keyboard--hidden');
     }
@@ -361,9 +362,9 @@ var Keyboard = function (clientOptions) {
     function changeLangauge(lang) {
         if (supportedLanguages.indexOf(lang) === -1) return;
 
-        var k = Helper('.keyboard__key:not(.keyboard__key--wide):not(.keyboard__key--extra-wide)');
+        var k = Helper('.keyboard__key:not(.keyboard__key--wide):not(.keyboard__key--extra-wide)'),
+            i = 0;
 
-        var i = 0;
         operateOnKeys(lang, function (key) {
             if (!isSpecialKey(key) && k[i]) {
                 Helper(k[i]).text(key + "");
@@ -379,17 +380,21 @@ var Keyboard = function (clientOptions) {
     }
 
     function initEvents() {
-        // Binding focus event on inputs, textareas
+        // Binding the focus event on inputs, textareas (exclude the keyboard input)
         Helper('input:not(.keyboard__input), textarea').each(function (input) {
             Helper(input).on('focus', function (e) {
                 var input = e.target;
+                // exclude the readonly fileds
                 if (input.readOnly) return;
+                // Shows the kayboard
                 Helper(elements.container).removeClass('keyboard--hidden');
                 elements.clientInput = input;
-                updateKeyboardLiveInput({
+                // Init the keyboard input
+                initKeyboardInput({
                     placeholder: input.placeholder,
                     value: input.value
                 });
+                // Update the keyboard when typing in an input 
                 Helper(input).on('input', function () {
                     elements.keyboardInput.value = this.value;
                 });
@@ -409,6 +414,7 @@ var Keyboard = function (clientOptions) {
             }
         });
 
+        // Update the client input when typing in the keyboard input
         Helper(elements.keyboardInput).on('input', function () {
             elements.clientInput.value = this.value;
         });
